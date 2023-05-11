@@ -2,7 +2,7 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 
 import { useState } from 'react'
 import userService from '../../utils/userService';
-
+import ErorMessage from '../../components/ErrorMessage/ErrorMessage'
 
 export default function Signup (){
 
@@ -31,17 +31,28 @@ export default function Signup (){
         setSelectedFile(e.target.files[0]);
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
         const formData = new FormData()
         formData.append('photo', selectedFile)
 
         for (let fieldName in state){
             console.log(fieldName, state[fieldName])
+
             formData.append(fieldName, state[fieldName])
         }
 
+        console;e.log(formData.forEach((item) => console.log(item)))
 
+        try {
+            await userService.signup(formData);
+        } catch (err) {
+            console.log(err.message, 'This is the error signup page')
+
+            setError('Check your terminal, there was an error signing up!')
+        }
+
+   
     }
 
     
