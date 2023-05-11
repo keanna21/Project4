@@ -2,9 +2,12 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 
 import { useState } from 'react'
 import userService from '../../utils/userService';
-import ErorMessage from '../../components/ErrorMessage/ErrorMessage'
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
+import { useNavigate } from 'react-router-dom';
 
-export default function Signup (){
+export default function Signup ({handleSignupOrLogin}){
+
+  const navigate = useNavigate();
 
     const [state, setState] = useState({
      userame:'',
@@ -42,10 +45,12 @@ export default function Signup (){
             formData.append(fieldName, state[fieldName])
         }
 
-        console;e.log(formData.forEach((item) => console.log(item)))
+        console.log(formData.forEach((item) => console.log(item)))
 
         try {
             await userService.signup(formData);
+            handleSignupOrLogin()
+            navigate('/')
         } catch (err) {
             console.log(err.message, 'This is the error signup page')
 

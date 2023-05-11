@@ -3,26 +3,46 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
 const S3 = require('aws-sdk/clients/s3');
-const s3 = new S3()
+const s3 = new S3();
 const { v4: uuidv4 } = require('uuid');
+
+const BUCKET = process.env.BUCKET
 module.exports = {
   signup,
   login
 };
 
 async function signup(req, res) {
+  console.log(req.body, " <- contents of the form", req.file, ' <- this is req.file')
+
+  if(!req.file) return res.status(400).json({error: "Please Submit a Photo"})
 
   
-  const user = new User(req.body);
-  try {
-    await user.save();
-    const token = createJWT(user);
-    res.json({ token });
-  } catch (err) {
-    // Probably a duplicate email
-    res.status(400).json(err);
-  }
-}
+  const filePath = `traveltales/${uuidv4()}-${req.file.originalname}`
+  const params = {Bucket: BUCKET, Key: filePath, Body: req.file.buffer};  
+  s3.upload(params, async function(err, data){ 
+    console.log(err)
+    if(err){
+      res.status(400).json({error: 'error from aws, check your terminal'})
+    }
+
+  console.log(data)
+    const user = new User({...req.body, photoUrl: data.Location}); 
+    try {
+      await user.save(); 
+      const token = createJWT(user);
+      res.json({ token }); 
+    } catch (err) {
+      
+      res.status(400).json(err);
+    }
+
+
+
+  }) 
+} 
+
+
 
 async function login(req, res) {
  
