@@ -10,6 +10,8 @@ require("./config/database");
 
 const app = express();
 
+
+
 // add in when the app is ready to be deployed
 // app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(logger("dev"));
@@ -25,13 +27,18 @@ app.use("/api/users", require("./routes/api/users"));
 
 app.use('/api/posts', require('./routes/api/posts'))
 
-// "catch all" route
+const manifest = require('./dist/manifest.json');
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.render(path.join(__dirname, 'dist', 'index.ejs'), {manifest});
 });
 
 
-const port = process.env.PORT || 3001;
+
+
 
 
 
