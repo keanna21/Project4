@@ -34,6 +34,26 @@ export default function ProfilePage(){
         }
         getProfile()
     }, [])
+
+    if(error){
+        return(
+            <>
+            <PageHeader />
+            <h1>{error}</h1>
+            
+            </>
+        )
+    }
+
+    if(loading){
+        return (
+            <>
+             <PageHeader />
+             <h1>Loading...</h1>
+
+            </>
+        )
+    }
     
     return (
         <Grid>
@@ -44,7 +64,7 @@ export default function ProfilePage(){
         </Grid.Row>
         <Grid.Row>
             <Grid.Column>
-                <ProfileBio />
+                <ProfileBio user={profileUser} />
             </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>

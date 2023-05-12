@@ -38,6 +38,8 @@ export default function FeedPage(){
     getPosts();
   }, []); 
 
+  
+
     return (
         <Grid centered>
             <Grid.Row>
