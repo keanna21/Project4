@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Button, Form, Segment } from 'semantic-ui-react'
 
-export default function AddTravelForm(){
+export default function AddTravelForm({handleAddPost}){
 
     const [caption, setCaption] = useState('')
 
@@ -21,6 +21,8 @@ export default function AddTravelForm(){
         const formData = new FormData()
         formData.append('caption', caption)
         formData.append('photo', selectedFile)
+
+        handleAddPost(formData);
     }
 
     return(
