@@ -32,14 +32,14 @@ function create(req, res){
         })
 
         await post.populate('user')
-        
+
         res.status(201).json({data: post})
     }catch(err){
         res.status(400).json({error: err})
     }
   })
     
-    // res.json({data: 'working'})
+    
 }
 
 async function index(req, res){

@@ -16,3 +16,14 @@ export function create(data){
         throw new Error('Something went wrong in create Post')
     })
 }
+
+
+export function getAll() {
+    return fetch(BASE_URL, {
+        headers: {
+            'Authorization': 'Bearer ' + tokenService.getToken()
+        }
+    })
+
+    .then(res => res.json())
+}

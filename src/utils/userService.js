@@ -9,7 +9,7 @@ function signup(user) {
     // what do datatype do you need to change this too?
     body: user
   })
-  .then(res => {
+  .then((res) => {
     if (res.ok) return res.json();
     // Probably a duplicate email
     throw new Error('Email already taken!');
@@ -34,7 +34,7 @@ function login(creds) {
     headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(creds)
   })
-  .then(res => {
+  .then((res) => {
     // Valid login if we have a status of 2xx (res.ok)
     if (res.ok) return res.json();
     throw new Error('Bad Credentials!');
@@ -42,9 +42,22 @@ function login(creds) {
   .then(({token}) => tokenService.setToken(token));
 }
 
+function getProfile(username){
+return fetch(BASE_URL + username, {
+  headers: {
+    Authorization: 'Bearer ' + tokenService.getToken()
+  }
+}).then((res) => {
+  if(res.ok) return res.json()
+  throw new Error('Error from getProfile request, check the server terminal')
+})
+
+}
+
 export default {
   signup, 
   getUser,
   logout,
-  login
+  login,
+  getProfile
 };

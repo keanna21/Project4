@@ -1,7 +1,7 @@
 import PageHeader from "../../components/Header/Header"
 import AddTravelForm from "../../components/AddTravelForm/AddTravelForm"
 import PostDisplay from "../../components/PostDisplay/PostDisplay"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid } from "semantic-ui-react"
 import * as postsApi from '../../utils/postApi'
 
@@ -14,12 +14,29 @@ export default function FeedPage(){
     try{
         const responseData = await postsApi.create(post);
         console.log(responseData, 'response from the server')
-        setPosts([responseData, ...posts])
+        setPosts([responseData.data, ...posts])
     }catch (err) {
         console.log(err, 'error in addPost')
     }
 
    }
+
+   async function getPosts() {
+    try {
+      const response = await postsApi.getAll();
+      console.log(response, " data");
+      setPosts(response.posts);
+
+    } catch (err) {
+      console.log(err.message, " this is the error in getPosts");
+    }
+  }
+
+  useEffect(() => {
+    
+
+    getPosts();
+  }, []); 
 
     return (
         <Grid centered>
@@ -35,7 +52,7 @@ export default function FeedPage(){
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column style={{ maxWidth: 450}}>
-                    <PostDisplay /> 
+                    <PostDisplay posts={posts} /> 
                 </Grid.Column>
             </Grid.Row>
         </Grid>

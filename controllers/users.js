@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Post = require('../models/post')
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
@@ -9,7 +10,8 @@ const { v4: uuidv4 } = require('uuid');
 const BUCKET = process.env.BUCKET
 module.exports = {
   signup,
-  login
+  login,
+  profile
 };
 
 async function signup(req, res) {
@@ -61,6 +63,21 @@ async function login(req, res) {
     });
   } catch (err) {
     return res.status(401).json(err);
+  }
+}
+
+async function profile(req, res){
+  try {
+    const user = await User.findOne({username: req.params.username})
+    if(!user) return res.status(404).json({error: 'User not found'})
+
+    const posts = await Post.find({user: user._id}).populate('user').exec()
+    console.log(posts, ' this posts')
+    res.status(200).json({posts: posts, user: user})
+
+  } catch(err){
+    console.log(err)
+    res.status(400).json({err})
   }
 }
 

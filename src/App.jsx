@@ -6,6 +6,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage"
 import FeedPage from './pages/FeedPage/FeedPage'
 import userService from './utils/userService';
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+
 
 function App() {
 
@@ -20,6 +22,7 @@ function App() {
       <Route path="/" element={<FeedPage />} />
       <Route path="/login" element={<LoginPage handleSignupOrLogin={handleSignupOrLogin} />} />
       <Route path="/signup" element={<SignupPage handleSignupOrLogin={handleSignupOrLogin}/>} />
+      <Route path='/:username' element={<ProfilePage />} />
     </Routes>
   );
 }

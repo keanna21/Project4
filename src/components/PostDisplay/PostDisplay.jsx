@@ -1,5 +1,18 @@
-export default function PostDisplay(){
-    return(
-        <div>Component we will render our post</div>
-    )
-}
+import PostCard from "../TravelPostCard/TravelPostCard";
+import { Card } from "semantic-ui-react";
+
+
+export default function PostDisplay({posts}) {
+    return (
+      <Card.Group itemsPerRow={1} stackable>
+        {posts.map((post) => {
+          return (
+            <PostCard
+              post={post}
+              key={post._id}
+            />
+          );
+        })}
+      </Card.Group>
+    );
+  }
