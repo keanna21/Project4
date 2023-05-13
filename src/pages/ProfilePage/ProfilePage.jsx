@@ -5,7 +5,9 @@ import { Grid } from 'semantic-ui-react'
 
 import ProfileBio from "../../components/ProfileBio/ProfileBio"
 import ProfilePostDisplay from "../../components/ProfilePostDisplay/ProfilePostDisplay"
+import PostDisplay from "../../components/PostDisplay/PostDisplay"
 import  PageHeader from '../../components/Header/Header'
+import Loader from '../../components/Loader/Loader'
 import userService from "../../utils/userService"
 
 export default function ProfilePage(){
@@ -39,7 +41,7 @@ export default function ProfilePage(){
         return(
             <>
             <PageHeader />
-            <h1>{error}</h1>
+            <ErrorMessage error={error} />
             
             </>
         )
@@ -49,7 +51,7 @@ export default function ProfilePage(){
         return (
             <>
              <PageHeader />
-             <h1>Loading...</h1>
+             <Loader />
 
             </>
         )
@@ -69,7 +71,8 @@ export default function ProfilePage(){
         </Grid.Row>
         <Grid.Row centered>
             <Grid.Column style={{ maxWidth: 750 }}>
-                <ProfilePostDisplay />
+                <PostDisplay posts={posts} numPhotosCol={3} 
+                isProfile={true} />
             </Grid.Column>
         </Grid.Row>
     </Grid>     

@@ -28,7 +28,7 @@ async function signup(req, res) {
       res.status(400).json({error: 'error from aws, check your terminal'})
     }
 
-  console.log(data)
+  
     const user = new User({...req.body, photoUrl: data.Location}); 
     try {
       await user.save(); 
